@@ -17,12 +17,12 @@
       </inertial>
       <visual>
         <geometry>
-          <mesh filename="package://interbotix_ros_descriptions/models/ZED2.dae"/>
+          <mesh filename="package://custom_locobot_description/models/ZED2.dae"/>
         </geometry>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://interbotix_ros_descriptions/models/ZED2.dae"/>
+          <mesh filename="package://custom_locobot_description/models/ZED2.dae"/>
         </geometry>
       </collision>
     </link>

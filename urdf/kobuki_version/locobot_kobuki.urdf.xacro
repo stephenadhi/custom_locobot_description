@@ -56,7 +56,7 @@
         xyz="0.001 0 0.05199"/>
       <geometry>
         <mesh
-          filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/kobuki_version/kobuki.dae"/>
+          filename="package://custom_locobot_description/meshes/locobot_meshes/kobuki_version/kobuki.dae"/>
       </geometry>
     </visual>
     <collision>
@@ -128,7 +128,7 @@
         xyz="0 0 0"/>
       <geometry>
         <mesh
-          filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/kobuki_version/kobuki_wheel.dae"/>
+          filename="package://custom_locobot_description/meshes/locobot_meshes/kobuki_version/kobuki_wheel.dae"/>
       </geometry>
     </visual>
     <collision>
@@ -195,7 +195,7 @@
         xyz="0 0 0"/>
       <geometry>
         <mesh
-          filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/kobuki_version/kobuki_wheel.dae"/>
+          filename="package://custom_locobot_description/meshes/locobot_meshes/kobuki_version/kobuki_wheel.dae"/>
       </geometry>
     </visual>
     <collision>

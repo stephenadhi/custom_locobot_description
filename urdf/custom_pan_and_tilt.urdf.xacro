@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/zed2.xacro"/>
+  <xacro:include filename="$(find custom_locobot_description)/urdf/zed2.xacro"/>
   
   <xacro:macro name="custom_pan_and_tilt" params="*origin">
 
@@ -29,7 +29,7 @@
           xyz="0 0 0"/>
         <geometry>
           <mesh
-            filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/locobot_pan.stl"
+            filename="package://custom_locobot_description/meshes/locobot_meshes/locobot_pan.stl"
             scale="0.001 0.001 0.001"/>
         </geometry>
         <material name="interbotix_black"/>
@@ -40,7 +40,7 @@
           xyz="0 0 0"/>
         <geometry>
           <mesh
-            filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/locobot_pan.stl"
+            filename="package://custom_locobot_description/meshes/locobot_meshes/locobot_pan.stl"
             scale="0.001 0.001 0.001"/>
         </geometry>
       </collision>
@@ -112,7 +112,7 @@
           xyz="0 0 0"/>
         <geometry>
           <mesh
-            filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/locobot_tilt.stl"
+            filename="package://custom_locobot_description/meshes/locobot_meshes/locobot_tilt.stl"
             scale="0.001 0.001 0.001"/>
         </geometry>
         <material name="interbotix_black"/>
@@ -123,7 +123,7 @@
           xyz="0 0 0"/>
         <geometry>
           <mesh
-            filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/locobot_tilt.stl"
+            filename="package://custom_locobot_description/meshes/locobot_meshes/locobot_tilt.stl"
             scale="0.001 0.001 0.001"/>
         </geometry>
       </collision>
