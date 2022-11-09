@@ -3,10 +3,10 @@
 
   <xacro:property name="baseline" value="0.12"/>
 
-  <xacro:macro name="zed2" params="origin">
+  <xacro:macro name="zed2">
 
     <!-- Camera Center -->
-    <link name="${robot_name}/zed2_camera_center">
+    <link name="zed2_camera_center">
       <inertial>
         <mass value="0.16140"/>
         <origin xyz="0 0 0"/>
@@ -29,8 +29,8 @@
 
     <!-- Left Camera -->
     <joint name="zed2_left_camera_joint" type="fixed">
-      <parent link="${robot_name}/zed2_camera_center"/>
-      <child link="${robot_name}/zed2_left_camera_frame"/>
+      <parent link="zed2_camera_center"/>
+      <child link="zed2_left_camera_frame"/>
       <origin xyz="0 ${baseline/2} 0" rpy="0 0 0" />
     </joint>
 
@@ -38,61 +38,61 @@
 
     <joint name="zed2_left_camera_optical_joint" type="fixed">
       <origin xyz="0 0 0" rpy="-${pi/2} 0.0 -${pi/2}"/>
-      <parent link="${robot_name}/zed2_left_camera_frame"/>
-      <child link="${robot_name}/zed2_left_camera_optical_frame"/>
+      <parent link="zed2_left_camera_frame"/>
+      <child link="zed2_left_camera_optical_frame"/>
     </joint>
 
-    <link name="${robot_name}/zed2_left_camera_optical_frame"/>
+    <link name="zed2_left_camera_optical_frame"/>
 
     <!-- Right Camera -->
     <joint name="zed2_right_camera_joint" type="fixed">
-      <parent link="${robot_name}/zed2_camera_center"/>
-      <child link="${robot_name}/zed2_right_camera_frame"/>
+      <parent link="zed2_camera_center"/>
+      <child link="zed2_right_camera_frame"/>
       <origin xyz="0 -${baseline/2} 0" rpy="0 0 0" />
     </joint>
 
-    <link name="${robot_name}/zed2_right_camera_frame" />
+    <link name="zed2_right_camera_frame" />
 
     <joint name="zed2_right_camera_optical_joint" type="fixed">
       <origin xyz="0 0 0" rpy="-${pi/2} 0.0 -${pi/2}"/>
-      <parent link="${robot_name}/zed2_right_camera_frame"/>
-      <child link="${robot_name}/zed2_right_camera_optical_frame"/>
+      <parent link="zed2_right_camera_frame"/>
+      <child link="zed2_right_camera_optical_frame"/>
     </joint>
 
-    <link name="${robot_name}/zed2_right_camera_optical_frame"/>
+    <link name="zed2_right_camera_optical_frame"/>
 
     <!-- Sensors -->
     <joint name="zed2_mag_joint" type="fixed">
-      <parent link="${robot_name}/zed2_camera_center"/>
-      <child link="${robot_name}/zed2_mag_link"/>
+      <parent link="zed2_camera_center"/>
+      <child link="zed2_mag_link"/>
       <origin xyz="0 0 0" rpy="0 0 0" />
     </joint>
 
-    <link name="${robot_name}/zed2_mag_link" />
+    <link name="zed2_mag_link" />
 
     <joint name="zed2_baro_joint" type="fixed">
-      <parent link="${robot_name}/zed2_camera_center"/>
-      <child link="${robot_name}/zed2_baro_link"/>
+      <parent link="zed2_camera_center"/>
+      <child link="zed2_baro_link"/>
       <origin xyz="0 0 0" rpy="0 0 0" />
     </joint>
 
-    <link name="${robot_name}/zed2_baro_link" />
+    <link name="zed2_baro_link" />
 
     <joint name="zed2_temp_left_joint" type="fixed">
-      <parent link="${robot_name}/zed2_left_camera_frame"/>
-      <child link="${robot_name}/zed2_temp_left_link"/>
+      <parent link="zed2_left_camera_frame"/>
+      <child link="zed2_temp_left_link"/>
       <origin xyz="0 0 0" rpy="0 0 0" />
     </joint>
 
-    <link name="${robot_name}/zed2_temp_left_link" />
+    <link name="zed2_temp_left_link" />
 
     <joint name="zed2_temp_right_joint" type="fixed">
-        <parent link="${robot_name}/zed2_right_camera_frame"/>
-        <child link="${robot_name}/zed2_temp_right_link"/>
+        <parent link="zed2_right_camera_frame"/>
+        <child link="zed2_temp_right_link"/>
         <origin xyz="0 0 0" rpy="0 0 0" />
     </joint>
 
-    <link name="${robot_name}/zed2_temp_right_link" />
+    <link name="zed2_temp_right_link" />
 
   </xacro:macro>
 

@@ -14,15 +14,15 @@
         velocity="${pi}"/>
       <xacro:insert_block name="origin"/>
       <parent
-        link="${robot_name}/camera_tower_link"/>
+        link="camera_tower_link"/>
       <child
-        link="${robot_name}/pan_link"/>
+        link="pan_link"/>
       <dynamics
         friction="0.1"
         damping="0.1"/>
     </joint>
 
-    <link name="${robot_name}/pan_link">
+    <link name="pan_link">
       <visual>
         <origin
           rpy="0 0 ${pi/2}"
@@ -59,7 +59,7 @@
       </inertial>
     </link>
 
-    <gazebo reference="${robot_name}/pan_link">
+    <gazebo reference="pan_link">
       <material>Gazebo/DarkGrey</material>
       <self_collide>true</self_collide>
     </gazebo>
@@ -75,9 +75,9 @@
         rpy="0 0 0"
         xyz="0.025034 0 0.019"/>
       <parent
-        link="${robot_name}/pan_link"/>
+        link="pan_link"/>
       <child
-        link="${robot_name}/tilt_link"/>
+        link="tilt_link"/>
       <dynamics
         friction="0.1"
         damping="0.1"/>
@@ -105,7 +105,7 @@
       </ros2_control>
     </xacro:if>
 
-    <link name="${robot_name}/tilt_link">
+    <link name="tilt_link">
       <visual>
         <origin
           rpy="0 0 ${pi/2}"
@@ -142,7 +142,7 @@
       </inertial>
     </link>
 
-    <gazebo reference="${robot_name}/tilt_link">
+    <gazebo reference="tilt_link">
       <material>Gazebo/DarkGrey</material>
       <self_collide>true</self_collide>
     </gazebo>
@@ -152,9 +152,9 @@
         rpy="0 0 0"
         xyz="0.05318 0.0175 0.000009"/>
       <parent
-        link="${robot_name}/tilt_link"/>
+        link="tilt_link"/>
       <child
-        link="${robot_name}/zed2_camera_center"/>
+        link="zed2_camera_center"/>
     </joint>
 
     <xacro:zed2/>
