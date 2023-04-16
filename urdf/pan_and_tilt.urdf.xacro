@@ -12,22 +12,22 @@
         velocity="${pi}"/>
       <xacro:insert_block name="origin"/>
       <parent
-        link="camera_tower_link"/>
+        link="${robot_name}/camera_tower_link"/>
       <child
-        link="pan_link"/>
+        link="${robot_name}/pan_link"/>
       <dynamics
         friction="0.1"
         damping="0.1"/>
     </joint>
 
-    <link name="pan_link">
+    <link name="${robot_name}/pan_link">
       <visual>
         <origin
           rpy="0 0 ${pi/2}"
           xyz="0 0 0"/>
         <geometry>
           <mesh
-            filename="package://custom_locobot_description/meshes/locobot_meshes/locobot_pan.stl"
+            filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/locobot_pan.stl"
             scale="0.001 0.001 0.001"/>
         </geometry>
         <material name="interbotix_black"/>
@@ -38,7 +38,7 @@
           xyz="0 0 0"/>
         <geometry>
           <mesh
-            filename="package://custom_locobot_description/meshes/locobot_meshes/locobot_pan.stl"
+            filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/locobot_pan.stl"
             scale="0.001 0.001 0.001"/>
         </geometry>
       </collision>
@@ -57,7 +57,7 @@
       </inertial>
     </link>
 
-    <gazebo reference="pan_link">
+    <gazebo reference="${robot_name}/pan_link">
       <material>Gazebo/DarkGrey</material>
       <self_collide>true</self_collide>
     </gazebo>
@@ -73,9 +73,9 @@
         rpy="0 0 0"
         xyz="0.025034 0 0.019"/>
       <parent
-        link="pan_link"/>
+        link="${robot_name}/pan_link"/>
       <child
-        link="tilt_link"/>
+        link="${robot_name}/tilt_link"/>
       <dynamics
         friction="0.1"
         damping="0.1"/>
@@ -103,14 +103,14 @@
       </ros2_control>
     </xacro:if>
 
-    <link name="tilt_link">
+    <link name="${robot_name}/tilt_link">
       <visual>
         <origin
           rpy="0 0 ${pi/2}"
           xyz="0 0 0"/>
         <geometry>
           <mesh
-            filename="package://custom_locobot_description/meshes/locobot_meshes/locobot_tilt.stl"
+            filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/locobot_tilt.stl"
             scale="0.001 0.001 0.001"/>
         </geometry>
         <material name="interbotix_black"/>
@@ -121,7 +121,7 @@
           xyz="0 0 0"/>
         <geometry>
           <mesh
-            filename="package://custom_locobot_description/meshes/locobot_meshes/locobot_tilt.stl"
+            filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/locobot_tilt.stl"
             scale="0.001 0.001 0.001"/>
         </geometry>
       </collision>
@@ -140,33 +140,41 @@
       </inertial>
     </link>
 
-    <gazebo reference="tilt_link">
+    <gazebo reference="${robot_name}/tilt_link">
       <material>Gazebo/DarkGrey</material>
       <self_collide>true</self_collide>
     </gazebo>
 
-    <joint name="camera" type="fixed">
+    <!-- <joint name="camera" type="fixed">
       <origin
         rpy="0 0 0"
         xyz="0.05318 0.0175 0.000009"/>
       <parent
-        link="tilt_link"/>
+        link="${robot_name}/tilt_link"/>
       <child
-        link="camera_link"/>
-    </joint>
-
+        link="$(arg camera_name)_base_link"/>
+    </joint> -->
+    <!-- <link name="${arg camera_name}_base_link" /> -->
+    
+    <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/zed_camera/zed_macro.urdf.xacro" />
+    <xacro:zed_camera name="$(arg camera_name)" model="$(arg camera_model)" parent="$(arg base_frame)">
+        <origin 
+          xyz="$(arg cam_pos_x) $(arg cam_pos_y) $(arg cam_pos_z)" 
+          rpy="$(arg cam_roll) $(arg cam_pitch) $(arg cam_yaw)"/>
+    </xacro:zed_camera>
+  
     <gazebo reference="camera">
       <disableFixedJointLumping>true</disableFixedJointLumping>
     </gazebo>
 
-    <link name="camera_link">
+    <!-- <link name="camera_${robot_name}_link">
       <visual>
         <origin
           rpy="0 0 0"
           xyz="0 0 0"/>
         <geometry>
           <mesh
-            filename="package://custom_locobot_description/meshes/locobot_meshes/locobot_camera.stl"
+            filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/locobot_camera.stl"
             scale="0.001 0.001 0.001"/>
         </geometry>
         <material name="">
@@ -180,7 +188,7 @@
           xyz="0 0 0"/>
         <geometry>
           <mesh
-            filename="package://custom_locobot_description/meshes/locobot_meshes/locobot_camera.stl"
+            filename="package://interbotix_xslocobot_descriptions/meshes/locobot_meshes/locobot_camera.stl"
             scale="0.001 0.001 0.001"/>
         </geometry>
       </collision>
@@ -197,25 +205,25 @@
           iyz="0.0000000248"
           izz="0.0000468600"/>
       </inertial>
-    </link>
+    </link> -->
 
-    <gazebo reference="camera_link">
+    <gazebo reference="camera_${robot_name}_link">
       <material>Gazebo/Grey</material>
       <self_collide>true</self_collide>
     </gazebo>
 
     <!-- Adds a dummy link, libgazebo_ros_openni_kinect publishes from frame's z-axis -->
     <!-- https://github.com/ros-simulation/gazebo_ros_pkgs/issues/243 -->
-    <joint name="camera_depth_joint" type="fixed">
+    <!-- <joint name="camera_depth_joint" type="fixed">
       <origin rpy="${-pi/2} 0 ${-pi/2}" xyz="0 0 0"/>
-      <parent link="camera_link"/>
-      <child link="camera_depth_link"/>
+      <parent link="camera_${robot_name}_link"/>
+      <child link="${robot_name}/camera_depth_link"/>
     </joint>
-    <link name="camera_depth_link">
+    <link name="${robot_name}/camera_depth_link">
       <origin rpy="0 0 0" xyz="0 0 0"/>
-    </link>
+    </link> -->
 
-    <gazebo reference="camera_link">
+    <gazebo reference="camera_${robot_name}_link">
       <sensor name="camera_frame_sensor" type="depth">
         <always_on>true</always_on>
         <update_rate>30.0</update_rate>
@@ -232,6 +240,9 @@
           </clip>
         </camera>
         <plugin filename="libgazebo_ros_camera.so" name="camera_frame_controller">
+          <ros>
+            <namespace>/$(arg robot_name)</namespace>
+          </ros>
           <alwaysOn>true</alwaysOn>
           <updateRate>0.0</updateRate>
           <cameraName>camera</cameraName>
@@ -240,7 +251,7 @@
           <depthImageTopicName>aligned_depth_to_color/image_raw</depthImageTopicName>
           <depthImageCameraInfoTopicName>aligned_depth_to_color/camera_info</depthImageCameraInfoTopicName>
           <pointCloudTopicName>depth_registered/points</pointCloudTopicName>
-          <frameName>camera_depth_link</frameName>
+          <frameName>${robot_name}/camera_depth_link</frameName>
           <pointCloudCutoff>0.01</pointCloudCutoff>
           <pointCloudCutoffMax>10</pointCloudCutoffMax>
           <distortionK1>0.00000001</distortionK1>

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(custom_locobot_description)
+project(interbotix_xslocobot_descriptions)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -22,7 +22,6 @@ install(
     urdf
     launch
     meshes
-    models
     rviz
   DESTINATION
     share/${PROJECT_NAME}/

@@ -66,20 +66,14 @@
 
     <xacro:property name="base_link_z_offset"     value="${6.42*cm2m}"/>
 
-    <joint name="base_joint" type="fixed">
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <parent link="base_footprint"/>
-      <child link="base_link"/>
-    </joint>
-
     <!-- Docking properties -->
     <xacro:property name="robot_model_name" value="create3"/>
-    <xacro:property name="receiver_link_name" value="ir_omni"/>
+    <xacro:property name="receiver_link_name" value="${robot_name}/ir_omni"/>
     <xacro:property name="dock_model_name" value="standard_dock"/>
-    <xacro:property name="emitter_link_name" value="halo_link"/>
+    <xacro:property name="emitter_link_name" value="${robot_name}/halo_link"/>
     <xacro:arg name="visualize_rays" default="false"/>
     <!-- Create 3 base definition-->
-    <link name="base_link">
+    <link name="${robot_name}/base_link">
       <visual>
         <origin xyz="0 0 ${body_z_offset + base_link_z_offset}" rpy="0 0 ${pi/2}"/>
         <geometry>
@@ -103,7 +97,7 @@
     </xacro:bump_caster>
 
     <xacro:if value="${hardware_type == 'gz_ignition'}">
-      <gazebo reference="base_link">
+      <gazebo reference="${robot_name}/base_link">
         <xacro:material_darkgray/>
       </gazebo>
     </xacro:if>
@@ -144,6 +138,11 @@
     <xacro:if value="${hardware_type == 'gz_classic'}">
       <gazebo>
         <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+          <ros>
+            <namespace>/$(arg robot_name)</namespace>
+          </ros>
+          <robot_param>robot_description</robot_param>
+          <robot_param_node>robot_state_publisher</robot_param_node>
           <parameters> $(find interbotix_xslocobot_sim)/config/create3_version/$(arg robot_model)_controllers.yaml </parameters>
         </plugin>
       </gazebo>
@@ -265,7 +264,7 @@
           <ros>
             <remapping>odom:=sim_ground_truth_pose</remapping>
           </ros>
-          <body_name>base_footprint</body_name>
+          <body_name>${robot_name}/base_link</body_name>
           <frame_name>world</frame_name>
           <update_rate>62</update_rate>
           <xyz_offset>0 0 0</xyz_offset>
@@ -278,7 +277,7 @@
       <gazebo>
         <plugin name="dock_status_publisher" filename="libgazebo_ros_create_docking_status.so">
           <ros>
-            <namespace>/</namespace>
+            <namespace>/${robot_name}</namespace>
             <remapping>~/out:=dock</remapping>
           </ros>
           <update_rate>1.0</update_rate>

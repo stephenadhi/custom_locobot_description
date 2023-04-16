@@ -3,20 +3,33 @@
 
   <xacro:arg name="arm_model"             default=""/>
   <xacro:arg name="robot_model"           default=""/>
+  <xacro:arg name="robot_name"            default=""/>
   <xacro:arg name="base_model"            default=""/>
-  <xacro:arg name="show_lidar"            default="true"/>
+  <xacro:arg name="use_lidar"             default="true"/>
   <xacro:arg name="show_ar_tag"           default="true"/>
   <xacro:arg name="show_gripper_bar"      default="true"/>
   <xacro:arg name="show_gripper_fingers"  default="true"/>
   <xacro:arg name="external_urdf_loc"     default=""/>
-  <xacro:arg name="use_gripper"           default="false"/>
+  <xacro:arg name="use_gripper"           default="true"/>
   <xacro:arg name="hardware_type"         default="actual"/>
 
   <xacro:property name="hardware_type"    value="$(arg hardware_type)"/>
   <xacro:property name="arm_type"         value="$(arg arm_model)"/>
+  <xacro:property name="robot_name"       value="$(arg robot_name)"/>
   <xacro:property name="base_type"        value="$(arg base_model)"/>
   <xacro:property name="urdf_loc"         value="$(arg external_urdf_loc)"/>
   <xacro:property name="pi_offset"        value="0.00001"/>
+
+  <!-- ZED camera -->
+  <xacro:arg name="camera_name"   default="zed2" />
+  <xacro:arg name="camera_model"  default="zed2" />
+  <xacro:arg name="base_frame"    default="locobot/tilt_link" />
+  <xacro:arg name="cam_pos_x"     default="0.05318" />
+  <xacro:arg name="cam_pos_y"     default="0.0175" />
+  <xacro:arg name="cam_pos_z"     default="0.000009" />
+  <xacro:arg name="cam_roll"      default="0.0" />
+  <xacro:arg name="cam_pitch"     default="0.0" />
+  <xacro:arg name="cam_yaw"       default="0.0" />
 
   <xacro:if value="${urdf_loc != ''}">
     <xacro:include filename="${urdf_loc}"/>
@@ -26,14 +39,12 @@
     <texture filename="package://interbotix_common_sim/media/materials/textures/interbotix_black.png"/>
   </material>
 
-  <xacro:include filename="$(find custom_locobot_description)/urdf/plate.urdf.xacro" />
-  <xacro:include filename="$(find custom_locobot_description)/urdf/lidar.urdf.xacro" />
-  <xacro:include filename="$(find custom_locobot_description)/urdf/battery.urdf.xacro" />
-  <xacro:include filename="$(find custom_locobot_description)/urdf/arm_cradle.urdf.xacro" />
-  <xacro:include filename="$(find custom_locobot_description)/urdf/camera_tower.urdf.xacro" />
-  <xacro:include filename="$(find custom_locobot_description)/urdf/custom_pan_and_tilt.urdf.xacro" />
-
-  <link name="base_footprint"/>
+  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/plate.urdf.xacro" />
+  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/lidar.urdf.xacro" />
+  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/battery.urdf.xacro" />
+  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/arm_cradle.urdf.xacro" />
+  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/camera_tower.urdf.xacro" />
+  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/pan_and_tilt.urdf.xacro" />
 
   <xacro:if value="${arm_type == 'mobile_wx250s'}">
     <xacro:property name="camera_tower_size" value="large"/>
@@ -43,12 +54,12 @@
   </xacro:unless>
 
   <xacro:if value="${base_type == 'kobuki'}">
-    <xacro:include filename="$(find custom_locobot_description)/urdf/kobuki_version/locobot_kobuki.urdf.xacro"/>
+    <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/kobuki_version/locobot_kobuki.urdf.xacro"/>
     <xacro:property name="mesh_scale" value="0.001 0.001 0.001"/>
   </xacro:if> <!-- kobuki -->
 
   <xacro:if value="${base_type == 'create3'}">
-    <xacro:include filename="$(find custom_locobot_description)/urdf/create3_version/locobot_create3.urdf.xacro"/>
+    <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/create3_version/locobot_create3.urdf.xacro"/>
     <xacro:property name="mesh_scale" value="1 1 1"/>
   </xacro:if> <!-- create3 -->
 
@@ -104,7 +115,7 @@
 
   <xacro:if value="${arm_type != 'mobile_base'}">
 
-    <xacro:include filename="$(find custom_locobot_description)/urdf/arms/mobile_arm.urdf.xacro"/>
+    <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/arms/mobile_arm.urdf.xacro"/>
 
     <xacro:mobile_arm/>
 
@@ -260,21 +271,21 @@
 
     <xacro:if value="${camera_tower_size == 'large'}">
 
-      <xacro:custom_pan_and_tilt>
+      <xacro:pan_and_tilt>
         <origin
           rpy="0 0 0"
           xyz="0.047228 0 0.44425"/>
-      </xacro:custom_pan_and_tilt>
+      </xacro:pan_and_tilt>
 
     </xacro:if> <!-- base_type == 'kobuki' && camera_tower_size == 'large' -->
 
     <xacro:if value="${camera_tower_size == 'small'}">
 
-      <xacro:custom_pan_and_tilt>
+      <xacro:pan_and_tilt>
         <origin
           rpy="0 0 0"
           xyz="0.047228 0 0.38425"/>
-      </xacro:custom_pan_and_tilt>
+      </xacro:pan_and_tilt>
 
     </xacro:if> <!-- base_type == 'kobuki' && camera_tower_size == 'small' -->
 
@@ -284,21 +295,21 @@
 
     <xacro:if value="${camera_tower_size == 'large'}">
 
-      <xacro:custom_pan_and_tilt>
+      <xacro:pan_and_tilt>
         <origin
           rpy="0 0 0"
           xyz="0.061228 0 0.462"/>
-      </xacro:custom_pan_and_tilt>
+      </xacro:pan_and_tilt>
 
     </xacro:if> <!-- base_type == 'create3' && camera_tower_size == 'large' -->
 
     <xacro:if value="${camera_tower_size == 'small'}">
 
-      <xacro:custom_pan_and_tilt>
+      <xacro:pan_and_tilt>
         <origin
           rpy="0 0 0"
           xyz="0.061228 0 0.402"/>
-      </xacro:custom_pan_and_tilt>
+      </xacro:pan_and_tilt>
 
     </xacro:if> <!-- base_type == 'create3' && camera_tower_size == 'small' -->
 
@@ -306,7 +317,7 @@
 
   <!-- ********************************** Lidar **********************************  -->
 
-  <xacro:if value="$(arg show_lidar)">
+  <xacro:if value="$(arg use_lidar)">
 
     <xacro:if value="${base_type == 'kobuki'}">
 
@@ -356,6 +367,6 @@
 
     </xacro:if> <!-- base_type == 'create3' -->
 
-  </xacro:if> <!-- show_lidar -->
+  </xacro:if> <!-- use_lidar -->
 
 </robot>
